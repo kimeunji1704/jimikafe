@@ -169,7 +169,7 @@ mysqli_close($conn);
             this.price = price;
         }
 
-        var productList() = [];
+        var productList = [];
         var productTable = document.getElementById("product-table");
         var productSpinner = document.getElementById("product-spinner");
         var total_price = 0;
@@ -177,34 +177,39 @@ mysqli_close($conn);
             var productPrice = productSpinner.options[productSpinner.selectedIndex].value;
             var productQuantity = 1;
             var productName = productSpinner.options[productSpinner.selectedIndex].text;
-            var product = Product(productName, productQuantity, productPrice);
-            productList.push(product);
-            var row = productTable.insertRow();
-            var nameCell = row.insertCell(0);
-            nameCell.innerHTML = productName;
-            var quantityCell = row.insertCell(1);
-            var inputQuantity = document.createElement("input");
-            inputQuantity.type = 'number';
-            inputQuantity.id = 'quantity-' + productName;
-            inputQuantity.value = productQuantity;
-            inputQuantity.addEventListener('input', function () {
-                handleQuantityChange();
+            var product = new Product(productName, productQuantity, productPrice);
+            var foundProduct = productList.find(function (product) {
+                return product.productName === productName;
             });
-            quantityCell.appendChild(inputQuantity);
+            if (!foundProduct) {
+                productList.push(product);
+                var row = productTable.insertRow();
+                var nameCell = row.insertCell(0);
+                nameCell.innerHTML = productName;
+                var quantityCell = row.insertCell(1);
+                var inputQuantity = document.createElement("input");
+                inputQuantity.type = 'number';
+                inputQuantity.id = 'quantity-' + productName;
+                inputQuantity.value = productQuantity;
+                inputQuantity.addEventListener('change', function () {
+                    handleQuantityChange(productName, inputQuantity);
+                });
+                quantityCell.appendChild(inputQuantity);
 
-            var buttonCell = row.insertCell(2);
-            var buttonDelete = document.createElement("button");
-            buttonDelete.setAttribute("id", "row-id-" + productName);
-            buttonDelete.setAttribute("class", "btn btn-outline-danger delete-button");
-            buttonDelete.innerHTML = "-";
-            buttonDelete.onclick = function () {
+                var buttonCell = row.insertCell(2);
+                var buttonDelete = document.createElement("button");
+                buttonDelete.setAttribute("id", "row-id-" + productName);
+                buttonDelete.setAttribute("class", "btn btn-outline-danger delete-button");
+                buttonDelete.innerHTML = "-";
+                buttonDelete.onclick = function () {
+                    handleDeleteRow(product, row);
+                };
+                buttonCell.appendChild(buttonDelete);
 
-            };
-            buttonCell.appendChild(buttonDelete);
-
-            total_price += (productPrice * productQuantity);
-            var totalAmount = document.getElementById("total_amount");
-            totalAmount.value = total_price;
+                total_price += (productPrice * productQuantity);
+                var totalAmount = document.getElementById("total_amount");
+                totalAmount.value = total_price;
+            }
         });
 
         function handleQuantityChange(productName, inputQuantity) {
@@ -216,6 +221,14 @@ mysqli_close($conn);
             if (foundProduct) {
                 foundProduct.quantity = newQuantity;
             }
+
+            total_price = productList.reduce(function (total, product) {
+                return total + product.quantity * parseInt(product.price);
+            }, 0);
+
+            var totalAmount = document.getElementById("total_amount");
+            totalAmount.value = total_price; // Displaying the total with two decimal places
+
         }
 
         function handleDeleteRow(product, row) {
@@ -224,6 +237,9 @@ mysqli_close($conn);
                 productList.splice(productIndex, 1);
             }
             row.parentNode.removeChild(row);
+            total_price -= (product.quantity * product.price);
+            var totalAmount = document.getElementById("total_amount");
+            totalAmount.value = total_price;
         }
 
     </script>
