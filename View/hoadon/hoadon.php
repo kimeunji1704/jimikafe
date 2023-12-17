@@ -169,7 +169,7 @@ mysqli_close($conn);
             this.price = price;
         }
 
-        var productList() = [];
+        var productLists = [];
         var productTable = document.getElementById("product-table");
         var productSpinner = document.getElementById("product-spinner");
         var total_price = 0;

@@ -17,6 +17,14 @@
     while ($row = mysqli_fetch_assoc($result)) {
         $options .= "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
     }
+    // Thực hiện truy vấn
+    $query1 = "SELECT id, name FROM ingredient";
+    $result1 = mysqli_query($conn, $query1);
+    // Duyệt qua dữ liệu và tạo danh sách options
+    $options1 = "";
+    while ($row1 = mysqli_fetch_assoc($result1)) {
+        $options1 .= "<option value='" . $row1['id'] . "'>" . $row1['name'] . "</option>";
+    }
     // Đóng kết nối
     mysqli_close($conn);
 ?>
@@ -141,7 +149,9 @@
 
                     <div class="input-text">
                         <p>Nguyên liệu<span class="note" style="color:crimson">(*)</span></p>
-                        <input type="text" name="name" class="textfiel" style="height:30px; width:300px;">
+                        <select id="ingredient_id" name="ingredient_id" class="textfiel" style="height:30px; width:200px;">
+                            <?php echo $options1; ?>
+                        </select>
                     </div>
 
                     <div class="input-text">
@@ -170,10 +180,10 @@
                 die("connect fail " . mysqli_connect_error($conn));
             } else {
                 $supplier_id =$_POST["supplier_id"];
-                $name = $_POST["name"];
+                $ingredient_id = $_POST["ingredient_id"];
                 $quantity = $_POST["quantity"];
                 $date = $_POST["date"];
-                $query = "INSERT INTO import(supplier_id, name, quantity, date) VALUES ('$supplier_id', '$name', '$quantity', '$date')";
+                $query = "INSERT INTO import(supplier_id, ingredient_id, quantity, date) VALUES ('$supplier_id', '$ingredient_id', '$quantity', '$date')";
                 $result = mysqli_query($conn, $query);
                 if ($result == true) {
                     echo "Thêm mới dữ liệu thành công";

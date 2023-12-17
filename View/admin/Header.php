@@ -18,7 +18,7 @@
                         </div>
                         <div class="account-dropdown__body">
                           <div class="account-dropdown__item">
-                            <a href="#">
+                            <a href="../TTCN/indexTTCN.php">
                               <i class="zmdi zmdi-account"></i>Thông tin tài khoản</a
                             >
                           </div>

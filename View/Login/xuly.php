@@ -22,7 +22,7 @@ exit;
 // mã hóa pasword
   
 //Kiểm tra tên đăng nhập có tồn tại không
-$query = "SELECT username, password FROM accounts WHERE username='$username'";
+$query = "SELECT username, password, employee_id FROM accounts WHERE username='$username'";
 
 $result = mysqli_query($connect, $query) or die( mysqli_error($connect));
 
@@ -44,6 +44,7 @@ exit;
 //Lưu tên đăng nhập
 $_SESSION['username'] = $username;
 echo "Xin chào <b>" .$username . "</b>. Bạn đã đăng nhập thành công. <a href=''>Thoát</a>";
+$_SESSION['employee_id'] = $employee_id;
 
 header('Location: ..\admin\admin.php');
 die();

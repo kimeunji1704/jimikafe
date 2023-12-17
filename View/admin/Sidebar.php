@@ -34,7 +34,7 @@
               </li>
 
               <li class="active has-sub">
-                <a  href="..\nhacungcap\Nhacungcap.php" style="background-color:#EEEEEE;font-size: 19px; text-align: inherit;font-weight: bold; color: #777777;">
+                <a  href="..\hoadon\hoadon.php" style="background-color:#EEEEEE;font-size: 19px; text-align: inherit;font-weight: bold; color: #777777;">
                   <i class=""></i>Quản lý hóa đơn</a>
               </li>
 

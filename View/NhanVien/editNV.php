@@ -71,6 +71,11 @@
             margin-left: 120px;
         
         }
+        .title-content{
+            max-width: 100%; 
+            flex: 1 0 220px;
+            height: 70px;
+        }
         </style>
 </head>
 <body class="animsition">
