@@ -19,6 +19,36 @@ $options = "";
 while ($row = mysqli_fetch_assoc($result)) {
     $options .= "<option value='" . $row['unit_price'] . "'>" . $row['product_name'] . "</option>";
 }
+
+function checkDateInRange($startDate, $endDate)
+{
+    $currentDate = new DateTime();
+    $startDateObj = DateTime::createFromFormat('Y-m-d', $startDate);
+    $endDateObj = DateTime::createFromFormat('Y-m-d', $endDate);
+
+    if ($startDateObj && $endDateObj) {
+        // Đảm bảo ngày bắt đầu nhỏ hơn ngày kết thúc
+        if ($startDateObj < $endDateObj) {
+            return ($currentDate > $startDateObj) && ($currentDate < $endDateObj);
+        } else {
+            // Ngày bắt đầu không nhỏ hơn ngày kết thúc
+            return false;
+        }
+    } else {
+        // Định dạng ngày không hợp lệ
+        return false;
+    }
+}
+
+$queryCoupon = "SELECT id, discount, startime, endtime FROM voucher";
+$resultCoupon = mysqli_query($conn, $queryCoupon);
+
+$optionsCoupon = "";
+while ($rowCoupon = mysqli_fetch_assoc($resultCoupon)) {
+    if (checkDateInRange($rowCoupon["startime"], $rowCoupon["endtime"])) {
+        $optionsCoupon .= "<option value='" . $rowCoupon['id'] . "'>" . $rowCoupon['discount'] . "</option>";
+    }
+}
 // Đóng kết nối
 mysqli_close($conn);
 ?>
@@ -137,15 +167,20 @@ mysqli_close($conn);
                         </table>
 
                         <div class="input-text">
+                            <p>Khuyến mãi (%)</p>
+                            <select name="coupon-spinner" id="coupon-spinner" style="height:30px; width:200px;">
+                                <?php echo $optionsCoupon; ?>
+                            </select>
+                        </div>
+
+                        <div class="input-text">
                             <p>Tổng tiền</p>
                             <input type="text" disabled name="total_amount" id="total_amount" class="textfiel" readonly>
                         </div>
                         <p id="log"></p>
 
                         <div class="form-group">
-                            <button type="button" name="btnCalculateSalary" class="btn btn-outline-success"
-                                onclick="CalculateSalary()">Tính tiền</button>
-                            <button type="submit" name="btnSave" class="btn btn-outline-success">Thêm</button>
+                            <button type="submit" id="save_bill" name="" class="btn btn-outline-success">Thêm</button>
                             <a href="indexLuong.php" class="btn btn-outline-danger">Quay lại</a>
                         </div>
                     </div>
@@ -172,7 +207,24 @@ mysqli_close($conn);
         var productList = [];
         var productTable = document.getElementById("product-table");
         var productSpinner = document.getElementById("product-spinner");
+        var couponSpinner = document.getElementById("coupon-spinner");
         var total_price = 0;
+        var products_price = 0;
+        var firstClick = true;
+        var discount = 0;
+        var priceDiscount = 0;
+        couponSpinner.addEventListener("click", function () {
+            if (firstClick == false) {
+                discount = couponSpinner.options[couponSpinner.selectedIndex].text;
+                console.log("total before" + total_price);
+                total_price = total_price - (total_price * (discount / 100));
+                console.log("total after" + total_price);
+                var totalAmount = document.getElementById("total_amount");
+                totalAmount.value = total_price;
+            } else {
+                firstClick = false;
+            }
+        });
         productSpinner.addEventListener("change", function () {
             var productPrice = productSpinner.options[productSpinner.selectedIndex].value;
             var productQuantity = 1;
@@ -206,7 +258,17 @@ mysqli_close($conn);
                 };
                 buttonCell.appendChild(buttonDelete);
 
-                total_price += (productPrice * productQuantity);
+                products_price += (productPrice * productQuantity);
+                console.log("products_price before" + products_price);
+
+                if (discount > 0) {
+                    priceDiscount = products_price * (discount / 100);
+                    total_price = products_price - priceDiscount;
+                    console.log("after discount" + total_price);
+                } else {
+                    total_price = products_price
+                    console.log("after not discount" + total_price);
+                }
                 var totalAmount = document.getElementById("total_amount");
                 totalAmount.value = total_price;
             }
@@ -242,6 +304,25 @@ mysqli_close($conn);
             totalAmount.value = total_price;
         }
 
+        var addBill = document.getElementById("save_bill");
+        addBill.addEventListener("click", function () {
+
+        });
+
+        function create() {
+            var date = document.getElementById("date").value;
+            var idVoucher = couponSpinner.options[couponSpinner.selectedIndex].value;
+            var total_price = document.getElementById("total_amount");
+
+            $.ajax({
+                url: 'create.php',
+                type: 'POST',
+                data: { date: date, idVoucher: idVoucher, total_price: total_price, productList: JSON.stringify(productList) },
+                success: function (response) {
+
+                }
+            });
+        }
     </script>
 
     <?php
