@@ -208,7 +208,11 @@ mysqli_close($conn);
 
             couponSpinner.addEventListener("click", function () {
                 if (firstClick == false) {
-                    discount = couponSpinner.options[couponSpinner.selectedIndex].text;
+                    if(couponSpinner.selectedIndex === -1){
+                        discount = 0;
+                    }else{
+                        discount = couponSpinner.options[couponSpinner.selectedIndex].text;
+                    }
                     updateTotalPrice();
                     firstClick = true;
                 } else {
@@ -311,7 +315,14 @@ mysqli_close($conn);
             document.querySelector("button[name='btnSave']").addEventListener("click", function (event) {
                 event.preventDefault();
                 var date = document.getElementById("date").value;
-                var idVoucher = couponSpinner.options[couponSpinner.selectedIndex].value;
+                console.log("đang ở đây");
+                var idVoucher = -1;
+                if(couponSpinner.selectedIndex === -1){
+                    idVoucher = "1";
+                }else{
+                    idVoucher = couponSpinner.options[couponSpinner.selectedIndex].value
+                }
+                console.log(idVoucher);
                 var total_price_input = document.getElementById("total_amount");
                 var total_price_value = total_price_input.value;
                 sendBillData(date, idVoucher, total_price_value, productList);
