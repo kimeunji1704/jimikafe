@@ -8,8 +8,18 @@
           <nav class="navbar-sidebar" style="padding:0px">
             <ul class="list-unstyled navbar__list">
               <li class="active has-sub">
-                <a  href="..\admin\adminNV.php" style="background-color:#EEEEEE;font-size: 19px; text-align: inherit;font-weight: bold; color: #777777;">
+                <a  href="..\Nhanvien\indexNV.php" style="background-color:#EEEEEE;font-size: 19px; text-align: inherit;font-weight: bold; color: #777777;">
                   <i class=""></i>Quản lý nhân viên</a>
+              </li>
+
+              <li class="active has-sub">
+                <a  href="..\Calamviec\indexCa.php" style="background-color:#EEEEEE;font-size: 19px; text-align:inherit ;font-weight: bold; color: #777777;">
+                  <i class=""></i>Quản lý ca</a>
+              </li>
+
+              <li class="active has-sub">
+                <a  href="..\Luong\indexLuong.php" style="background-color:#EEEEEE;font-size: 19px; text-align:inherit ;font-weight: bold; color: #777777;">
+                <i class=""></i>Quản lý lương</a>
               </li>
 
               <li class="active has-sub">
@@ -34,7 +44,7 @@
               </li>
 
               <li class="active has-sub">
-                <a  href="..\hoadon\hoadon.php" style="background-color:#EEEEEE;font-size: 19px; text-align: inherit;font-weight: bold; color: #777777;">
+                <a  href="..\hoadon\indexHD.php" style="background-color:#EEEEEE;font-size: 19px; text-align: inherit;font-weight: bold; color: #777777;">
                   <i class=""></i>Quản lý hóa đơn</a>
               </li>
 
@@ -49,8 +59,8 @@
               </li>
 
               <li class="active has-sub">
-              <a  class="js-arrow" href="..\admin\adminTK.php" style="background-color:#EEEEEE;font-size: 19px; text-align:inherit ;font-weight: bold; color: #777777;">
-                  <i class=""></i>Thống kê</a>
+              <a  class="js-arrow" href="..\Thongke\index.php" style="background-color:#EEEEEE;font-size: 19px; text-align:inherit ;font-weight: bold; color: #777777;">
+                  <i class=""></i>Thống kê doanh thu</a>
               </li>
             </ul>
           </nav>

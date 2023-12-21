@@ -31,17 +31,17 @@
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
 						</div>
-						<input type="text" name="username" class="form-control" placeholder="username">
+						<input type="text" name="username" class="form-control" style = "font-family: 'Times New Roman', Times, serif; font-size: 18px;" placeholder="Tên đăng nhập">
 						
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-key"></i></span>
 						</div>
-						<input type="password" name="password" class="form-control" placeholder="password">
+						<input type="password" name="password" class="form-control" style = "font-family: 'Times New Roman', Times, serif; font-size: 18px;" placeholder="Mật khẩu">
 					</div>
 					<div class="form-group">
-						<input type="submit" name="dangnhap" value="Đăng nhâpk" class="btn float-right login_btn">
+						<input type="submit" name="dangnhap" style = "font-family: 'Times New Roman', Times, serif; font-size: 20px;width: 120.6px;" value="Đăng nhập" class="btn float-right login_btn">
 					</div>
                     <?php require 'xuly.php'; ?>
 				</form>

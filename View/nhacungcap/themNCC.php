@@ -95,9 +95,6 @@
         
         <div style="margin-left: 50px; padding-bottom: 15px; padding-top: 15px; display: inline-block;width: 1169px;">
             <h3 style="color: #000000; display: inline-block; font-size: 30px;">Thêm mới nhà cung cấp</h3>
-            <a href="Nhacungcap.php" class="btn btn-outline-info" style="display: inline-block; margin-left: 700px; background-color: #006600; color: white; font-size: 18px;">
-                <span>Quay lại</span>
-            </a>
     </div>
 
         <div class="them" >
@@ -162,7 +159,7 @@
                     $phone = $_POST['txtphone'];
                     $diachi = $_POST['txtdc'];
                     $mota = $_POST['txtmota'];
-                $query = "INSERT INTO supplier (name, phone, address, description) VALUES ('$name','$phone', '$diachi', '$mota')";
+                $query = "INSERT INTO supplier (supplier_name, phone, address, description) VALUES ('$name','$phone', '$diachi', '$mota')";
                 $result = mysqli_query($conn, $query);
                 if ($result == true) {
                     echo "Thêm mới dữ liệu thành công";

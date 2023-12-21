@@ -15,6 +15,7 @@ if (!$conn) {
         $account_type = "";
         $password = " ";
         $employee_id= " ";
+        //$status= " ";
         $conn = mysqli_connect("localhost","root","", "jimikafe");
         if($conn == false){
             die("Connect fail: ". mysqli_connect_error($conn));
@@ -28,6 +29,7 @@ if (!$conn) {
                     $account_type =$row["account_type"];
                     $password = $row["password"];
                     $employee_id = $row["employee_id"];
+                    //$status = ($row["status"] == '0') ? 'Hoạt động' : 'Ngừng hoạt động';
                 }
             }
             else{
@@ -100,6 +102,7 @@ if (!$conn) {
         .text-content .input-text p {
             width: 150px;
             padding-right: 10px;
+            color: #000000;
         }
         .text-content .input-text .textfiel {
             border: 1px solid #000;
@@ -127,11 +130,10 @@ if (!$conn) {
             <div class="title-content">
                 <form action="" method="post" class="form-content">
                     <div class="text-content">
-
                         <div class="input-text"">
-                            <label for="account_type" style="width: 150px; padding-right: 10px;">Loại tài khoản<span class="note" style="color:crimson">(*)</span></label>
+                            <p for="account_type" style="width: 150px; padding-right: 10px;">Loại tài khoản<span class="note" style="color:crimson">(*)</span></p>
                             <div class="ui-select__wrapper next-input--has-content" style="width: 100px; height: 20px;">
-                                <select id="account_type" name="account_type" class="ui-select" style="width: 321.777778px; height:30px; width:150px;">
+                                <select id="account_type" name="account_type" class="ui-select" style="height:30px; width:200px;">
                                     <option value="0" <?php if (isset($_POST['account_type']) && $_POST['account_type'] == '0') echo 'selected' ?>>Nhân viên</option>
                                     <option value="1" <?php if (isset($_POST['account_type']) && $_POST['account_type'] == '1') echo 'selected' ?>>Quản lý</option>
                                 </select>
@@ -143,21 +145,35 @@ if (!$conn) {
 
                         <div class="input-text">
                             <p>Tên đăng nhập<span class="note" style="color:crimson">(*)</span></p>
-                            <input type="text" name="username" class="textfiel" value="<?php echo isset($_POST['username']) ? $_POST['username']:$username ?>" readonly>
-                        </div>
-                        <div class="input-text">
-                            <p>Mật khẩu<span class="note" style="color: crimson">(*)</span></p>
-                            <input type="password" name="password" class="textfiel" value="<?php echo isset($_POST['password']) ? $_POST['password'] : $password ?>">
+                            <input type="text" name="username" class="textfiel" style="height:30px; width:200px;" value="<?php echo isset($_POST['username']) ? $_POST['username']:$username ?>" readonly>
                         </div>
 
                         <div class="input-text">
-                        <form method="post">
-                        <p style="display:inline-block; padding-right:18px ;">Tên nhân viên<span class="note" style="color:crimson">(*)</span></p>
-                        <select style="display:inline-block" id="employee_id" name="employee_id" value="<?php echo isset($_POST['employee_id']) ? $_POST['employee_id']:$employee_id ?>">
-                        <?php echo $options; ?>
-                        </select>
-                        </form>
+                            <p>Mật khẩu<span class="note" style="color: crimson">(*)</span></p>
+                            <input type="password" name="password" class="textfiel" style="height:30px; width:200px;" value="<?php echo isset($_POST['password']) ? $_POST['password'] : $password ?>">
                         </div>
+
+                        <div class="input-text">
+                            <form method="post">
+                                <p style="display:inline-block; padding-right:18px ;">Tên nhân viên<span class="note" style="color:crimson">(*)</span></p>
+                                <select style="display:inline-block; height:30px; width:200px;" id="employee_id" name="employee_id" disabled value="<?php echo isset($_POST['employee_id']) ? $_POST['employee_id']:$employee_id ?>">
+                                    <?php echo $options; ?>
+                                </select>
+                            </form>
+                        </div>
+
+                        <!--<div class="input-text"">
+                            <p>Trạng thái<span class="note" style="color:crimson">(*)</span></p>
+                            <div class="ui-select__wrapper next-input--has-content" style="width:200px; height:30px;"> 
+                                <select id="status" name="status" class="ui-select" style="width:200px; height:30px;">
+                                    <option value="0" <?php //if ($status == 'Hoạt động') echo 'selected' ?>>Hoạt động</option>
+                                    <option value="1" <?php //if ($status == 'Ngừng hoạt động') echo 'selected' ?>>Ngừng hoạt động</option>
+                                </select>
+                                <svg class="next-icon next-icon--size-16">
+                                    <use xlink:href="#selectChevron"></use>
+                                </svg>
+                            </div>
+                        </div>-->
 
                         <div class="form-group">
                             <button type="submit" id="btnSave" name="btnSave" class="btn btn-outline-success">Cập nhật</button>
@@ -180,7 +196,8 @@ if (!$conn) {
                     $username = $_POST["username"];
                     $password =$_POST["password"];
                     $employee_id = $_POST["employee_id"];
-                    $query = "UPDATE acccounts SET account_type='".$account_type."', password ='".$password."', employee_id='".$employee_id."' WHERE username= '".$username."'";
+                    $status = $_POST["status"];
+                    $query = "UPDATE acccounts SET account_type='".$account_type."', password ='".$password."', employee_id='".$employee_id."', status='".$status."' WHERE username= '".$username."'";
                     //Step 3
                     $result = mysqli_query($conn,$query);
                     if($result==true){

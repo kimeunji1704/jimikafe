@@ -102,13 +102,13 @@
             $query = "";
             if (isset($_POST['txtSearch'])) {
                 $KeyWord = $_POST['txtSearch'];
-                $query = "SELECT accounts.account_type, accounts.username, employees.name, accounts.status
+                $query = "SELECT accounts.account_type, accounts.username, employees.name
                           FROM accounts 
                           JOIN employees ON accounts.employee_id = employees.id
                           WHERE accounts.username LIKE N'%".$KeyWord."%' OR employees.name LIKE N'%".$KeyWord."%' 
                           LIMIT $start, $limit";
             } else {
-                $query = "SELECT accounts.account_type, accounts.username, employees.name, accounts.status
+                $query = "SELECT accounts.account_type, accounts.username, employees.name
                           FROM accounts 
                           JOIN employees ON accounts.employee_id = employees.id 
                           LIMIT $start, $limit";
@@ -121,7 +121,6 @@
                 echo "<th> Loại tài khoản</th> ";
                 echo "<th> Tên đăng nhập</th>";
                 echo "<th> Tên nhân viên</th>";
-                echo "<th> Trạng thái</th>";
                 echo "<th>Thao Tác</th>";
                 echo "</thead>";
                 echo "<tbody>";
@@ -130,14 +129,15 @@
                 echo "<td>" . ($row["account_type"] == 1 ? "Quản lý" : "Nhân viên") . "</td>";
                 echo "<td>" .$row["username"]."</td>";
                 echo "<td>" .$row["name"]."</td>";
-                $status = $row["status"];
-                $statusText = ($status == 1 ? "Hoạt động" : "Ngừng hoạt động");
-                $statusColor = ($status == 1 ? "green" : "red");
+                /*$status = $row["status"];
+                $statusText = ($status == 0 ? "Hoạt động" : "Ngừng hoạt động");
+                $statusColor = ($status == 0 ? "green" : "red");
                 echo "<td style='border: 1 px; color: $statusColor;'>" . $statusText . "</td>";
-               /* echo "<td>" . ($row["status"] == 1 ? "Hoạt động" : "Ngừng hoạt động") . "</td>";*/
+               echo "<td>" . ($row["status"] == 1 ? "Hoạt động" : "Ngừng hoạt động") . "</td>";*/
 
-                echo "<td>" ."<a href = 'suatk.php?username=".$row["username"]."' class='btn btn-outline-secondary'>Sửa</a>"."
-                "." <a href='=".$row["username"]."' class='btn btn-outline-danger'>Khóa tài khoản</a>"."</td>";
+                echo "<td>" ."<a href = 'suatk.php?username=".$row["username"]."' class='btn btn-outline-secondary'>Sửa</a>"." 
+                "."<a onclick='return confirm(\"Bạn có muốn xóa dữ liệu không?\")'
+                href = 'xoatk.php?username=".$row["username"]."' class='btn btn-outline-danger'>Xóa</a>"."</td>";
                 echo "</tr>";
             }
             echo "</tbody></table>";

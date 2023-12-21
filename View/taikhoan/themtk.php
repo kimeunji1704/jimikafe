@@ -138,7 +138,7 @@ mysqli_close($conn);
                     <div class="next-input-wrapper" style ="max-width: 100%; flex: 1 0 220px;height: 55px;">
                         <label class="next-label" style ="margin-bottom: 0px">Loại tài khoản<span class="note" style="color:crimson">(*)</span></label>
                         <div class="ui-select__wrapper next-input--has-content" style="width: 100px; height: 20px;">
-                            <select class="ui-select" name="account_type"  style="height:30px; width:300px;"">
+                            <select class="ui-select" name="account_type"  style="height:30px; width: 250px;"">
                                 <option value="0">Nhân viên</option>
                                 <option value="1">Quản lý</option>
                             </select><svg class="next-icon next-icon--size-16"> 
@@ -149,21 +149,33 @@ mysqli_close($conn);
 
                     <div class="input-text">
                         <p>Tên đăng nhập<span class="note" style="color:crimson">(*)</span></p>
-                        <input type="text" placeholder="Nhập tên đăng nhập" name="txtusername" class="textfiel" style="height:30px; width:300px;">
+                        <input type="text" placeholder="Nhập tên đăng nhập" name="txtusername" class="textfiel" style="height:30px; width: 250px;">
                     </div>
 
                     <div class="input-text">
                         <p>Mật khẩu<span class="note" style="color: crimson">(*)</span></p>
-                        <input type="password" placeholder="Nhập mật khẩu" name="txtpassword" class="textfiel" style="height: 30px; width: 300px;">
+                        <input type="password" placeholder="Nhập mật khẩu" name="txtpassword" class="textfiel" style="height: 30px; width: 250px;">
                     </div>
 
 
                     <div class="input-text">
-                            <p>Tên nhân viên<span class="note" style="color:crimson">(*)</span></p>
-                            <select id="employee_id" name="employee_id" class="textfiel" style="height:30px; width:300px;">
-                                <?php echo $options; ?>
-                            </select>
+                        <p>Tên nhân viên<span class="note" style="color:crimson">(*)</span></p>
+                        <select id="employee_id" name="employee_id" class="textfiel" style="height:30px; width:250px;">
+                            <?php echo $options; ?>
+                        </select>
                     </div>
+
+                    <!--<div class="next-input-wrapper" style ="max-width: 100%; flex: 1 0 220px;height: 70px;">
+                        <label class="next-label">Trạng thái<span class="note" style="color:crimson">(*)</span></label>
+                        <div class="ui-select__wrapper next-input--has-content" style="width: 100px; height: 20px;">
+                            <select class="ui-select" name="status" style="width: 321.777778px; height:30px; width:250px;"">
+                                <option value="0">Hoạt động</option>
+                                <option value="1">Ngừng hoạt động</option>
+                            </select><svg class="next-icon next-icon--size-16"> 
+                                    <use xlink:href="#selectChevron"></use> 
+                            </svg>
+                        </div>
+                    </div>-->
 
                     <div class="form-group">
                             <button type="submit" name="btnSave" class="btn btn-outline-success">Lưu</button>
@@ -185,11 +197,11 @@ mysqli_close($conn);
                 $username = $_POST["txtusername"];
                 $password = $_POST["txtpassword"];
                 $employee_id = $_POST["employee_id"];
+                //$status = $_POST["status"];
                 $query = "INSERT INTO accounts(account_type, username, password, employee_id) VALUES ('$account_type', '$username', '$password', '$employee_id')";
                 $result = mysqli_query($conn, $query);
                 if ($result == true) {
                     echo "Thêm mới thành công";
-                    /*header('Location: ..\taikhoan\taikhoan.php');*/
 
                 } else {
                     echo "Lỗi ghi dữ liệu" . mysqli_error($conn);

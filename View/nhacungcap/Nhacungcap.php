@@ -100,12 +100,12 @@
             $query = "";
             if (isset($_POST['txtSearch'])) {
                 $KeyWord = $_POST['txtSearch'];
-                $query = "SELECT id, name, phone, address, description 
+                $query = "SELECT id, supplier_name, phone, address, description 
                           FROM supplier
                           WHERE name LIKE N'%".$KeyWord."%' 
                           LIMIT $start, $limit";
             } else {
-                $query = "SELECT id, name, phone, address, description 
+                $query = "SELECT id, supplier_name, phone, address, description 
                           FROM supplier 
                           LIMIT $start, $limit";
             }
@@ -125,7 +125,7 @@
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
                     echo "<td style='text-align: center;'>".$row["id"]."</td>";
-                    echo "<td style='text-align: center;'>".$row["name"]."</td>";
+                    echo "<td style='text-align: center;'>".$row["supplier_name"]."</td>";
                     echo "<td style='text-align: center;'>".$row["phone"]."</td>";
                     echo "<td style='text-align: left;'>".$row["address"]."</td>";
                     echo "<td style='text-align: left;'>".$row["description"]."</td>";

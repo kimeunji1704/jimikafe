@@ -72,20 +72,17 @@
   </head>
 
   <body class="animsition">
-    <div class="img">
-      <img src="..\images\cafe.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
-    </div>
-  <!-- <div class="row" style="margin-left:300px;margin-top:80px;">
-                            <div class="col-lg-6">
-                                <div class="au-card recent-report">
-                                    <div class="au-card-inner">
-                                        <h3 class="title-2">recent reports</h3>
-                                        <div class="chart-info">
-                                            <div class="chart-info__left">
-                                                <div class="chart-note">
-                                                    <span class="dot dot--blue"></span>
-                                                    <span>products</span>
-                                                </div>
+    <div class="row" style="margin-left:300px;margin-top:80px;">
+      <div class="col-lg-6">
+        <div class="au-card recent-report">
+          <div class="au-card-inner">
+            <h3 class="title-2">recent reports</h3>
+              <div class="chart-info">
+                <div class="chart-info__left">
+                  <div class="chart-note">
+                    <span class="dot dot--blue"></span>
+                      <span>products</span>
+                  </div>
                                                 <div class="chart-note mr-0">
                                                     <span class="dot dot--green"></span>
                                                     <span>services</span>
@@ -110,7 +107,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+
+                            <!--<div class="col-lg-6">
                                 <div class="au-card chart-percent-card">
                                     <div class="au-card-inner">
                                         <h3 class="title-2 tm-b-5">char by %</h3>
@@ -135,12 +133,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>-->
+                            </div>-->
+                        </div>
     <script
       data-cfasync="false"
       src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="vendor/jquery-3.2.1.min.js"></script>
 
     <script src="vendor/bootstrap-4.1/popper.min.js"></script>

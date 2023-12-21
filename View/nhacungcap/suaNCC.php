@@ -126,7 +126,7 @@
 
                         <div class="input-text">
                             <p>Địa chỉ</p>
-                            <input type="text" name="Diachi" class="textfiel" value="<?php echo isset($_POST['Diachi']) ? $_POST['Diachi']:$Diachi ?>" >
+                            <input type="text" name="Diachi" class="textfiel" value="<?php echo isset($_POST['Diachi']) ? $_POST['Diachi']:$Diachi ?>">
                         </div>
 
                         <div class="input-text">
@@ -157,7 +157,7 @@
                     $Diachi = $_POST['Diachi'];
                     $Mota = $_POST['Mota'];
                     //Step 2
-                    $query = "UPDATE supplier SET name='".$TenNCC."', phone='".$SDT."', address='".$Diachi."', description='".$Mota."'  WHERE id='".$MaNCC."'";
+                    $query = "UPDATE supplier SET supplier_name='".$TenNCC."', phone='".$SDT."', address='".$Diachi."', description='".$Mota."'  WHERE id='".$MaNCC."'";
                     //Step 3
                     $result = mysqli_query($conn,$query);
                     if($result==true){

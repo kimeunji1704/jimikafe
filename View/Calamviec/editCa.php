@@ -1,6 +1,6 @@
 <?php
     include_once('..\admin\Header.php');
-    include_once('..\admin\SidebarNV.php');
+    include_once('..\admin\Sidebar.php');
 ?>
 <?php
 // Kết nối đến cơ sở dữ liệu

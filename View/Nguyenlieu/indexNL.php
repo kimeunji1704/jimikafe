@@ -64,7 +64,13 @@
     </form>
     <div style="margin-left: 50px; padding-bottom: 15px; padding-top: 15px; display: inline-block;">
         <h3 style="color: #000000; display: inline-block; font-size: 35px;">Danh sách nguyên liệu</h3>
-        <a href="Nhapkho.php" class="btn btn-outline-info" style="display: inline-block; margin-left: 500px; background-color: #064928; color: white; font-size: 18px;">
+        <a href="createNL.php" class="btn btn-outline-info" style="display: inline-block; margin-left:250px; background-color: #064928; color: white; font-size: 18px;">
+            <svg class="" width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.66667 4.66659H7.33333V7.33325H4.66667V8.66659H7.33333V11.3333H8.66667V8.66659H11.3333V7.33325H8.66667V4.66659ZM8 1.33325C4.32 1.33325 1.33333 4.31992 1.33333 7.99992C1.33333 11.6799 4.32 14.6666 8 14.6666C11.68 14.6666 14.6667 11.6799 14.6667 7.99992C14.6667 4.31992 11.68 1.33325 8 1.33325ZM8 13.3333C5.06 13.3333 2.66667 10.9399 2.66667 7.99992C2.66667 5.05992 5.06 2.66659 8 2.66659C10.94 2.66659 13.3333 5.05992 13.3333 7.99992C13.3333 10.9399 10.94 13.3333 8 13.3333Z" fill="white"></path>
+            </svg>
+            Thêm nguyên liệu
+        </a>
+        <a href="Nhapkho.php" class="btn btn-outline-info" style="display: inline-block; margin-left: 10px; background-color: #064928; color: white; font-size: 18px;">
             <svg class="" width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8.66667 4.66659H7.33333V7.33325H4.66667V8.66659H7.33333V11.3333H8.66667V8.66659H11.3333V7.33325H8.66667V4.66659ZM8 1.33325C4.32 1.33325 1.33333 4.31992 1.33333 7.99992C1.33333 11.6799 4.32 14.6666 8 14.6666C11.68 14.6666 14.6667 11.6799 14.6667 7.99992C14.6667 4.31992 11.68 1.33325 8 1.33325ZM8 13.3333C5.06 13.3333 2.66667 10.9399 2.66667 7.99992C2.66667 5.05992 5.06 2.66659 8 2.66659C10.94 2.66659 13.3333 5.05992 13.3333 7.99992C13.3333 10.9399 10.94 13.3333 8 13.3333Z" fill="white"></path>
             </svg>
@@ -110,12 +116,12 @@
             $query = "";
             if (isset($_POST['txtSearch'])) {
                 $KeyWord = $_POST['txtSearch'];
-                $query = "SELECT id, name, quantity
+                $query = "SELECT id, name, quantity, unit
                           FROM ingredient
-                          WHERE name LIKE N'%".$KeyWord."%' 
+                          WHERE name LIKE N'%" . $KeyWord . "%'
                           LIMIT $start, $limit";
             } else {
-                $query = "SELECT id, name, quantity
+                $query = "SELECT id, name, quantity, unit
                           FROM ingredient 
                           LIMIT $start, $limit";
             }
@@ -127,6 +133,7 @@
                 echo "<th> Mã nguyên liệu</th> ";
                 echo "<th> Tên nguyên liệu</th>";
                 echo "<th> Số lượng</th>";
+                echo "<th> Đơn vị</th>";   
                 echo "</thead>";
                 echo "<tbody>";
             while($row = mysqli_fetch_assoc($result)){
@@ -134,6 +141,7 @@
                 echo "<td>" .$row["id"]."</td>";
                 echo "<td>" .$row["name"]."</td>";
                 echo "<td>" .$row["quantity"]."</td>";
+                echo "<td>" .$row["unit"]."</td>";
                 echo "</tr>";
             }
             echo "</tbody></table>";

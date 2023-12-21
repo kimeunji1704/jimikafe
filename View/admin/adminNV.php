@@ -66,19 +66,11 @@
 
     <link href="css/theme.css" rel="stylesheet" media="all" />
     <meta name="robots" content="index, nofollow" />
-    <style>
-      .img{
-        width: 1220px;
-        height: 400px;
-        margin-top: 78px;
-        margin-left: 300px;
-      }
-    </style>
   </head>
 
   <body class="animsition">
-    <div class="img">
-      <img src="..\images\jimi.jpg" alt="">
+  <div class="img">
+      <img src="..\images\cafe.jpg".jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
     <script
       data-cfasync="false"
