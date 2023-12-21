@@ -261,10 +261,10 @@ mysqli_close($conn);
 
             function handleQuantityChange(product, inputQuantity) {
                 var newQuantity = parseInt(inputQuantity.value, 10);
+                console.log(newQuantity);
                 product.quantity = newQuantity;
-                updateTotalPrice();
+                updateTotalPrice(); // Call the function without passing newQuantity
             }
-
             function handleDeleteRow(product, row) {
                 var productIndex = productList.indexOf(product);
                 if (productIndex !== -1) {
@@ -276,7 +276,11 @@ mysqli_close($conn);
 
             function updateTotalPrice() {
                 var totalAmount = document.getElementById("total_amount");
-                total_price = products_price;
+                total_price = 0; // Reset total_price before calculating it again
+
+                productList.forEach(function (product) {
+                    total_price += product.price * product.quantity;
+                });
 
                 if (discount > 0) {
                     priceDiscount = total_price * (discount / 100);
