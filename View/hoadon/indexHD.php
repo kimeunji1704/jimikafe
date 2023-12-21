@@ -133,6 +133,7 @@
                     <label for="" style="font-size: 18px;">Năm: </label>
                     <select id="id_select" name="nam" onChange="click()" style="font-size: 18px;">
                         <option value="2023" selected="selected">2023</option>
+                        <option value="2024" selected="selected">2024</option>
                     </select>
                     <button type="submit" name="submit" id="btnSearch" class="btn btn-primary" style="background-color: #006400; ">Tìm kiếm</button><br></br>
                 </form>
@@ -146,22 +147,24 @@
                             if(!empty($_POST['thang']) AND !empty($_POST['thang'])) {
                                 $thang= $_POST['thang'];
                                 $nam= $_POST['nam'];
-                        $query = "SELECT month(date), SUM(total_amount) as DT  
+                        $query = "SELECT id, date, total_amount  
                                   FROM bill 
                                   WHERE month(date)='$thang' AND year(date)='$nam' 
-                                  GROUP BY month(date);";
+                                  GROUP BY date;";
                         $result = mysqli_query($con, $query);
                         if(mysqli_num_rows($result)>0){
                             echo "<table class='table table-hover'>";
                             echo "<thead>";
-                            echo "<th>Tháng</th>";
-                            echo "<th>Doanh thu</th>";
+                            echo "<th>Mã hóa đơn</th>";
+                            echo "<th>Ngày</th>";
+                            echo "<th>Tổng tiền</th>";
                             echo "<thead>";
                             echo "<tbody>";
                             while($row = mysqli_fetch_assoc($result)){
                                 echo "<tr>";
-                                echo "<td>" .$row["month(date)"]."</td>";
-                                echo "<td>" .number_format($row["DT"]) ."</td>";
+                                echo "<td>" .$row["id"]."</td>";
+                                echo "<td>" .$row["date"]."</td>";
+                                echo "<td>" .number_format($row["total_amount"]) ."</td>";
                                 echo "</tr>";
                             }
                             echo "</table></tbody>";
