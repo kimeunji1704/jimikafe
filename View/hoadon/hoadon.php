@@ -12,12 +12,12 @@ if (!$conn) {
 }
 
 // Thực hiện truy vấn
-$query = "SELECT product_name, unit_price  FROM product";
+$query = "SELECT id, product_name, unit_price  FROM product";
 $result = mysqli_query($conn, $query);
 // Duyệt qua dữ liệu và tạo danh sách options
 $options = "";
 while ($row = mysqli_fetch_assoc($result)) {
-    $options .= "<option value='" . $row['unit_price'] . "'>" . $row['product_name'] . "</option>";
+    $options .= "<option value='" . $row['unit_price'] . "'>" . $row["id"] . "-" . $row['product_name'] . "</option>";
 }
 
 function checkDateInRange($startDate, $endDate)
@@ -145,7 +145,7 @@ mysqli_close($conn);
                     <div class="text-content">
                         <div class="input-text">
                             <p>Ngày</p>
-                            <input type="date" name="date" id="date" class="textfiel">
+                            <input type="date" name="date" id="date" placeholder="dd-MM-yyyy" class="textfiel">
                         </div>
 
                         <div class="input-text">
@@ -189,6 +189,7 @@ mysqli_close($conn);
         </div>
     </div>
     <script>
+
         function CalculateSalary() {
             var salary = document.getElementById("salary").value;
             var reward = document.getElementById("reward").value;
@@ -309,17 +310,35 @@ mysqli_close($conn);
 
         });
 
+        function formatDateToYYYYMMDD(date) {
+            // Ensure that the input is a valid Date object
+            if (!(date instanceof Date)) {
+                console.error("Invalid Date object");
+                return null;
+            }
+
+            // Get year, month, and day
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+            const day = date.getDate().toString().padStart(2, '0');
+
+            // Format the date as "yyyy-MM-dd"
+            const formattedDate = `${year}-${month}-${day}`;
+
+            return formattedDate;
+        }
+
         function create() {
             var date = document.getElementById("date").value;
             var idVoucher = couponSpinner.options[couponSpinner.selectedIndex].value;
             var total_price = document.getElementById("total_amount");
-
+            var dateAfterFormat = formatDateToYYYYMMDD(date);
             $.ajax({
                 url: 'create.php',
                 type: 'POST',
-                data: { date: date, idVoucher: idVoucher, total_price: total_price, productList: JSON.stringify(productList) },
+                data: { date: dateAfterFormat, idVoucher: idVoucher, total_price: total_price, productList: JSON.stringify(productList) },
                 success: function (response) {
-
+                    console.log(response);
                 }
             });
         }
