@@ -1,14 +1,14 @@
 <?php
 $conn = mysqli_connect("localhost", "root", "", "jimikafe");
 
-// Kiểm tra kết nối
+// Check connection
 if (!$conn) {
-    die("Kết nối thất bại: " . mysqli_connect_error());
+    die("Connection failed: " . mysqli_connect_error());
 }
 
 $date = $_POST['date'];
-$idVoucher = empty($_POST['idVoucher']) ? 1 : $_POST['idVoucher'];
-$total_price = $_POST['total_price'];
+$idVoucher = empty($_POST['idVoucher']) ? 1 : intval($_POST['idVoucher']);
+$total_price = intval($_POST['total_price']);
 $productList = json_decode($_POST['productList'], true);
 
 class Product
@@ -24,32 +24,43 @@ class Product
         $this->quantity = $quantity;
         $this->price = $price;
     }
-
 }
 
-$queryAddBill = "INSERT INTO `bill`(`id_bill`, `voucher_id`, `total_amount`, `date`) VALUES (0,'" . $idVoucher . "','" . $total_price . "','" . $date . "')";
+$queryAddBill = "INSERT INTO `bill`(`id_bill`, `voucher_id`, `total_amount`, `date`) VALUES (0, '$idVoucher', '$total_price', '$date')";
 $resultAddBill = mysqli_query($conn, $queryAddBill);
-// $product = new Product("", -1, -1);
-// if ($resultAddCategory) {
-//     $queryGetIdBill = "SELECT TOP 1 id_bill FROM bill ORDER BY id_bill DESC";
-//     $resultGetBill = mysqli_query($conn, $queryGetIdBill);
-//     while ($row = mysqli_fetch_assoc($resultGetBill)) {
-//         foreach ($productList as $product) {
-//             $queryAddDetailBill = "INSERT INTO `bill_detail`(`id`, `id_bill`, `product_id`, `quantity`) VALUES (0,'" . $row["id_bill"] . "','" . getIdProduct($product . $product_name) . "','" . $product . $quantity . "')";
-//             $resultAddDetailBill = mysqli_query($conn, $queryAddDetailBill);
-//         }
-//     }
-// }
 
-function getIdProduct($str)
+if ($resultAddBill) {
+    $lastInsertedId = mysqli_insert_id($conn);
+
+    foreach ($productList as $product) {
+        $productId = getIdProduct($product['productName']);
+        $quantity = intval($product['quantity']);
+
+        $queryAddDetailBill = "INSERT INTO `bill_detail`(`id`, `id_bill`, `product_id`, `quantity`) VALUES (0, '$lastInsertedId', '$productId', '$quantity')";
+        $resultAddDetailBill = mysqli_query($conn, $queryAddDetailBill);
+
+        if (!$resultAddDetailBill) {
+            echo 400;
+            exit;  // Exit the script if detail insertion fails
+        }
+    }
+
+    echo 200;
+} else {
+    echo 400;
+}
+
+function getIdProduct($productName)
 {
-    $dashPosition = strpos($str, "-");
+    $dashPosition = strpos($productName, "-");
 
     if ($dashPosition !== false) {
-        $number = substr($str, 0, $dashPosition);
-        echo $number;
+        $number = substr($productName, 0, $dashPosition);
+        return $number;
     }
+
+    return null;  // Or handle the case where the dash is not found
 }
-$conn->close();
-echo 'True';
+
+mysqli_close($conn);
 ?>

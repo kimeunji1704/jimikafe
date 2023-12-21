@@ -177,10 +177,10 @@ mysqli_close($conn);
                             <p>Tổng tiền</p>
                             <input type="text" disabled name="total_amount" id="total_amount" class="textfiel" readonly>
                         </div>
-                        <p id="log"></p>
 
                         <div class="form-group">
-                            <button type="submit" id="save_bill" name="" class="btn btn-outline-success">Thêm</button>
+                            <button style="margin-left: 650px;" type="submit" id="save_bill" name="btnSave"
+                                class="btn btn-outline-success"><i class="fa fa-plus"></i>Thêm</button>
                             <a href="indexLuong.php" class="btn btn-outline-danger">Quay lại</a>
                         </div>
                     </div>
@@ -189,69 +189,66 @@ mysqli_close($conn);
         </div>
     </div>
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var productList = [];
+            var productTable = document.getElementById("product-table");
+            var productSpinner = document.getElementById("product-spinner");
+            var couponSpinner = document.getElementById("coupon-spinner");
+            var total_price = 0;
+            var products_price = 0;
+            var discount = 0;
+            var priceDiscount = 0;
+            var firstClick = true;
 
-        function CalculateSalary() {
-            var salary = document.getElementById("salary").value;
-            var reward = document.getElementById("reward").value;
-            var workhours = document.getElementById("workhours").value;
-            var fines = document.getElementById("fines").value;
-            var total = parseFloat(salary) * parseFloat(workhours) + parseFloat(reward) - parseFloat(fines);
-            document.getElementById("total").value = isNaN(total) ? '' : total;
-        }
-
-        function Product(productName, quantity, price) {
-            this.productName = productName;
-            this.quantity = quantity;
-            this.price = price;
-        }
-
-        var productList = [];
-        var productTable = document.getElementById("product-table");
-        var productSpinner = document.getElementById("product-spinner");
-        var couponSpinner = document.getElementById("coupon-spinner");
-        var total_price = 0;
-        var products_price = 0;
-        var firstClick = true;
-        var discount = 0;
-        var priceDiscount = 0;
-        couponSpinner.addEventListener("click", function () {
-            if (firstClick == false) {
-                discount = couponSpinner.options[couponSpinner.selectedIndex].text;
-                console.log("total before" + total_price);
-                total_price = total_price - (total_price * (discount / 100));
-                console.log("total after" + total_price);
-                var totalAmount = document.getElementById("total_amount");
-                totalAmount.value = total_price;
-            } else {
-                firstClick = false;
+            function Product(productName, quantity, price) {
+                this.productName = productName;
+                this.quantity = quantity;
+                this.price = price;
             }
-        });
-        productSpinner.addEventListener("change", function () {
-            var productPrice = productSpinner.options[productSpinner.selectedIndex].value;
-            var productQuantity = 1;
-            var productName = productSpinner.options[productSpinner.selectedIndex].text;
-            var product = new Product(productName, productQuantity, productPrice);
-            var foundProduct = productList.find(function (product) {
-                return product.productName === productName;
+
+            couponSpinner.addEventListener("click", function () {
+                if (firstClick == false) {
+                    discount = couponSpinner.options[couponSpinner.selectedIndex].text;
+                    updateTotalPrice();
+                    firstClick = true;
+                } else {
+                    firstClick = false;
+                }
             });
-            if (!foundProduct) {
-                productList.push(product);
+
+            productSpinner.addEventListener("change", function () {
+                var productPrice = parseFloat(productSpinner.options[productSpinner.selectedIndex].value);
+                var productName = productSpinner.options[productSpinner.selectedIndex].text;
+
+                var product = new Product(productName, 1, productPrice);
+
+                var foundProduct = productList.find(function (p) {
+                    return p.productName === productName;
+                });
+
+                if (!foundProduct) {
+                    productList.push(product);
+                    addProductRow(product);
+                    updateTotalPrice();
+                }
+            });
+
+            function addProductRow(product) {
                 var row = productTable.insertRow();
                 var nameCell = row.insertCell(0);
-                nameCell.innerHTML = productName;
+                nameCell.innerHTML = product.productName;
+
                 var quantityCell = row.insertCell(1);
                 var inputQuantity = document.createElement("input");
                 inputQuantity.type = 'number';
-                inputQuantity.id = 'quantity-' + productName;
-                inputQuantity.value = productQuantity;
+                inputQuantity.value = product.quantity;
                 inputQuantity.addEventListener('change', function () {
-                    handleQuantityChange(productName, inputQuantity);
+                    handleQuantityChange(product, inputQuantity);
                 });
                 quantityCell.appendChild(inputQuantity);
 
                 var buttonCell = row.insertCell(2);
                 var buttonDelete = document.createElement("button");
-                buttonDelete.setAttribute("id", "row-id-" + productName);
                 buttonDelete.setAttribute("class", "btn btn-outline-danger delete-button");
                 buttonDelete.innerHTML = "-";
                 buttonDelete.onclick = function () {
@@ -259,119 +256,64 @@ mysqli_close($conn);
                 };
                 buttonCell.appendChild(buttonDelete);
 
-                products_price += (productPrice * productQuantity);
-                console.log("products_price before" + products_price);
+                products_price += (product.price * product.quantity);
+            }
+
+            function handleQuantityChange(product, inputQuantity) {
+                var newQuantity = parseInt(inputQuantity.value, 10);
+                product.quantity = newQuantity;
+                updateTotalPrice();
+            }
+
+            function handleDeleteRow(product, row) {
+                var productIndex = productList.indexOf(product);
+                if (productIndex !== -1) {
+                    productList.splice(productIndex, 1);
+                }
+                row.parentNode.removeChild(row);
+                updateTotalPrice();
+            }
+
+            function updateTotalPrice() {
+                var totalAmount = document.getElementById("total_amount");
+                total_price = products_price;
 
                 if (discount > 0) {
-                    priceDiscount = products_price * (discount / 100);
-                    total_price = products_price - priceDiscount;
-                    console.log("after discount" + total_price);
-                } else {
-                    total_price = products_price
-                    console.log("after not discount" + total_price);
+                    priceDiscount = total_price * (discount / 100);
+                    total_price -= priceDiscount;
                 }
-                var totalAmount = document.getElementById("total_amount");
+
                 totalAmount.value = total_price;
             }
-        });
 
-        function handleQuantityChange(productName, inputQuantity) {
-            var newQuantity = parseInt(inputQuantity.value, 10);
-            var foundProduct = productList.find(function (product) {
-                return product.productName === productName;
+            function sendBillData(date, idVoucher, total_price, productList) {
+                $.ajax({
+                    url: 'create.php',
+                    type: 'POST',
+                    data: { date: date, idVoucher: idVoucher, total_price: total_price, productList: JSON.stringify(productList) },
+                    success: function (response) {
+                        if (response == 200) {
+                            window.location.href = 'indexHD.php';
+                        } else {
+                            console.log("Failed to add bill.");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+            document.querySelector("button[name='btnSave']").addEventListener("click", function (event) {
+                event.preventDefault();
+                var date = document.getElementById("date").value;
+                var idVoucher = couponSpinner.options[couponSpinner.selectedIndex].value;
+                var total_price_input = document.getElementById("total_amount");
+                var total_price_value = total_price_input.value;
+                sendBillData(date, idVoucher, total_price_value, productList);
             });
-
-            if (foundProduct) {
-                foundProduct.quantity = newQuantity;
-            }
-
-            total_price = productList.reduce(function (total, product) {
-                return total + product.quantity * parseInt(product.price);
-            }, 0);
-
-            var totalAmount = document.getElementById("total_amount");
-            totalAmount.value = total_price; // Displaying the total with two decimal places
-
-        }
-
-        function handleDeleteRow(product, row) {
-            var productIndex = productList.indexOf(product);
-            if (productIndex !== -1) {
-                productList.splice(productIndex, 1);
-            }
-            row.parentNode.removeChild(row);
-            total_price -= (product.quantity * product.price);
-            var totalAmount = document.getElementById("total_amount");
-            totalAmount.value = total_price;
-        }
-
-        var addBill = document.getElementById("save_bill");
-        addBill.addEventListener("click", function () {
-
         });
-
-        function formatDateToYYYYMMDD(date) {
-            // Ensure that the input is a valid Date object
-            if (!(date instanceof Date)) {
-                console.error("Invalid Date object");
-                return null;
-            }
-
-            // Get year, month, and day
-            const year = date.getFullYear();
-            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
-            const day = date.getDate().toString().padStart(2, '0');
-
-            // Format the date as "yyyy-MM-dd"
-            const formattedDate = `${year}-${month}-${day}`;
-
-            return formattedDate;
-        }
-
-        function create() {
-            var date = document.getElementById("date").value;
-            var idVoucher = couponSpinner.options[couponSpinner.selectedIndex].value;
-            var total_price = document.getElementById("total_amount");
-            var dateAfterFormat = formatDateToYYYYMMDD(date);
-            $.ajax({
-                url: 'create.php',
-                type: 'POST',
-                data: { date: dateAfterFormat, idVoucher: idVoucher, total_price: total_price, productList: JSON.stringify(productList) },
-                success: function (response) {
-                    console.log(response);
-                }
-            });
-        }
     </script>
-
-    <?php
-    function InsertData()
-    {
-        $conn = mysqli_connect("localhost", "root", "", "jimikafe");
-        if ($conn == false) {
-            die("connect fial " . mysqli_connect_error($conn));
-        } else {
-            $employee_id = $_POST['employee_id'];
-            $date = $_POST['date'];
-            $salary = $_POST['salary'];
-            $reward = $_POST['reward'];
-            $fines = $_POST['fines'];
-            $workhours = $_POST['workhours'];
-            $total = $_POST['total'];
-            $query = "INSERT INTO salaries(employee_id, date, salary, reward, fines, workhours, total) VALUES ('$employee_id','$date','$salary','$reward','$fines','$workhours','$total')";
-            $result = mysqli_query($conn, $query);
-            if ($result == true) {
-                echo "thêm mới dữ liệu thành công";
-            } else {
-                echo "Lỗi ghi dữ liệu" . mysqli_error($conn);
-            }
-        }
-        mysqli_close($conn);
-    }
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_POST['btnSave'])) {
-        InsertData();
-    }
-    ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
@@ -389,7 +331,7 @@ mysqli_close($conn);
     <script src="vendor/chartjs/Chart.bundle.min.js"></script>
     <script src="vendor/select2/select2.min.js"></script>
     <script src="js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </body>
 
 </html>
