@@ -143,15 +143,18 @@ mysqli_close($conn);
             <div class="table">
                 <form action="" method="post" class="form-content">
                     <div class="text-content">
-                    <div class="input-text" style="display: inline-block;">
-                        <p style="display: inline-block; margin-right: 10px; width: 80px;">Ngày</p>
-                        <input type="date" name="date" id="date" class="textfiel" readonly style="display: inline-block;">
+                        <div class="input-text" style="display: inline-block;">
+                            <p style="display: inline-block; margin-right: 10px; width: 80px;">Ngày</p>
+                            <input type="date" name="date" id="date" class="textfiel" readonly
+                                style="display: inline-block;">
 
-                        <p style="display: inline-block; margin-left: 50px;margin-right: 10px; width: 120px;">Khuyến mãi (%)</p>
-                        <select name="coupon-spinner" id="coupon-spinner" style="height: 30px; width: 200px; display: inline-block;">
-                            <?php echo $optionsCoupon; ?>
-                        </select>
-                    </div>
+                            <p style="display: inline-block; margin-left: 50px;margin-right: 10px; width: 120px;">Khuyến
+                                mãi (%)</p>
+                            <select name="coupon-spinner" id="coupon-spinner"
+                                style="height: 30px; width: 200px; display: inline-block;">
+                                <?php echo $optionsCoupon; ?>
+                            </select>
+                        </div>
 
 
                         <script>
@@ -166,17 +169,21 @@ mysqli_close($conn);
                         </script>
 
                         <div class="input-text" style="margin-bottom: 10px;">
-                            <p style="display: inline-block; margin-right: 10px; margin-top: 15px; width: 80px;">Sản phẩm</p>
-                            <select id="product-spinner" name="product-spinner" value="" style="height:30px; width:300px;">
+                            <p style="display: inline-block; margin-right: 10px; margin-top: 15px; width: 80px;">Sản
+                                phẩm</p>
+                            <select id="product-spinner" name="product-spinner" value=""
+                                style="height:30px; width:300px;">
                                 <?php echo $options; ?>
                             </select>
                         </div>
 
-                        <table id="product-table" style="margin: top 20px; margin-bottom: 30px">
+                        <table id="product-table"
+                            style="margin: top 20px; margin-bottom: 30px; width:100%; border-collapse: collapse;">
                             <thead>
                                 <tr>
-                                    <th>Sản phẩm</th>
-                                    <th></th>
+                                    <th style="width: 40%; text-align: center;  border: 1px solid #ddd;">Sản phẩm</th>
+                                    <th style="width: 30%; text-align: center;  border: 1px solid #ddd;">Số lượng</th>
+                                    <th style="width: 30%; text-align: center;  border: 1px solid #ddd;">Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -217,9 +224,9 @@ mysqli_close($conn);
 
             couponSpinner.addEventListener("click", function () {
                 if (firstClick == false) {
-                    if(couponSpinner.selectedIndex === -1){
+                    if (couponSpinner.selectedIndex === -1) {
                         discount = 0;
-                    }else{
+                    } else {
                         discount = couponSpinner.options[couponSpinner.selectedIndex].text;
                     }
                     updateTotalPrice();
@@ -250,10 +257,13 @@ mysqli_close($conn);
                 var row = productTable.insertRow();
                 var nameCell = row.insertCell(0);
                 nameCell.innerHTML = product.productName;
+                nameCell.setAttribute("style", "width: 30%; text-align: center;  border: 1px solid #ddd;");
 
                 var quantityCell = row.insertCell(1);
+                quantityCell.setAttribute("style", "width: 30%; text-align: center;  border: 1px solid #ddd;");
                 var inputQuantity = document.createElement("input");
                 inputQuantity.type = 'number';
+                inputQuantity.setAttribute("style", "text-align: center;");
                 inputQuantity.value = product.quantity;
                 inputQuantity.addEventListener('change', function () {
                     handleQuantityChange(product, inputQuantity);
@@ -261,6 +271,7 @@ mysqli_close($conn);
                 quantityCell.appendChild(inputQuantity);
 
                 var buttonCell = row.insertCell(2);
+                buttonCell.setAttribute("style", "width: 30%; text-align: center;  border: 1px solid #ddd;");
                 var buttonDelete = document.createElement("button");
                 buttonDelete.setAttribute("class", "btn btn-outline-danger delete-button");
                 buttonDelete.innerHTML = "-";
@@ -326,9 +337,9 @@ mysqli_close($conn);
                 var date = document.getElementById("date").value;
                 console.log("đang ở đây");
                 var idVoucher = -1;
-                if(couponSpinner.selectedIndex === -1){
+                if (couponSpinner.selectedIndex === -1) {
                     idVoucher = "1";
-                }else{
+                } else {
                     idVoucher = couponSpinner.options[couponSpinner.selectedIndex].value
                 }
                 console.log(idVoucher);
