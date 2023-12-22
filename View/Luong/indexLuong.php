@@ -1,6 +1,6 @@
 <?php
     include_once('..\admin\Header.php');
-    include_once('..\admin\sidebarNV.php');
+    include_once('..\admin\sidebar.php');
 ?>
 <!DOCTYPE html>
 <html lang="vi">

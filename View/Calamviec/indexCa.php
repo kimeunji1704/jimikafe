@@ -141,8 +141,7 @@
                 $endtimeObject = new DateTime($endtime);
                 echo "<td>" . $endtimeObject->format('H:i') . "</td>";
                 //date
-                $date = new DateTime($row["date"]);  // Assuming "date" is the name of the form field
-                // Format and display the date in the desired format
+                $date = new DateTime($row["date"]);
                 echo "<td>" . $date->format('d/m/Y') . "</td>";
                 echo "<td>" .$row["total_hours"]."</td>";
                 echo "<td>" ."<a href = 'editCa.php?id=".$row["id"]."' class='btn btn-outline-secondary'>Sửa</a>"."</td>";

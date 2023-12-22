@@ -1,7 +1,7 @@
 <aside class="menu-sidebar d-none d-lg-block" >
         <div class="center" style="padding:0px">
           <a href="..\admin\adminNV.php">
-            <img src="../images/Screenshot_5.png"/>
+          <img src="../images/Screenshot_5.png" style="width: 285px;height: 78px;"/>
           </a>
         </div>
         <div class="menu-sidebar__content js-scrollbar1">

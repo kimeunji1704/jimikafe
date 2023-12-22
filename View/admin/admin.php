@@ -72,69 +72,25 @@
   </head>
 
   <body class="animsition">
-    <div class="row" style="margin-left:300px;margin-top:80px;">
-      <div class="col-lg-6">
-        <div class="au-card recent-report">
-          <div class="au-card-inner">
-            <h3 class="title-2">recent reports</h3>
+    <div class="container">
+      <div class="row justify-content-center" style="margin-top: 80px;">
+        <div class="col-lg-6">
+          <div class="au-card recent-report" style="width: 800px;">
+            <div class="au-card-inner">
+              <h3 class="title-2">Doanh thu</h3>
               <div class="chart-info">
                 <div class="chart-info__left">
-                  <div class="chart-note">
-                    <span class="dot dot--blue"></span>
-                      <span>products</span>
-                  </div>
-                                                <div class="chart-note mr-0">
-                                                    <span class="dot dot--green"></span>
-                                                    <span>services</span>
-                                                </div>
-                                            </div>
-                                            <div class="chart-info__right">
-                                                <div class="chart-statis">
-                                                    <span class="index incre">
-<i class="zmdi zmdi-long-arrow-up"></i>25%</span>
-                                                    <span class="label">products</span>
-                                                </div>
-                                                <div class="chart-statis mr-0">
-                                                    <span class="index decre">
-<i class="zmdi zmdi-long-arrow-down"></i>10%</span>
-                                                    <span class="label">services</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="recent-report__chart">
-                                            <canvas id="recent-rep-chart"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!--<div class="col-lg-6">
-                                <div class="au-card chart-percent-card">
-                                    <div class="au-card-inner">
-                                        <h3 class="title-2 tm-b-5">char by %</h3>
-                                        <div class="row no-gutters">
-                                            <div class="col-xl-6">
-                                                <div class="chart-note-wrap">
-                                                    <div class="chart-note mr-0 d-block">
-                                                        <span class="dot dot--blue"></span>
-                                                        <span>products</span>
-                                                    </div>
-                                                    <div class="chart-note mr-0 d-block">
-                                                        <span class="dot dot--red"></span>
-                                                        <span>services</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="percent-chart">
-                                                    <canvas id="percent-chart"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>-->
-                        </div>
+                </div>
+              </div>
+              <div class="recent-report__chart">
+                <canvas id="recent-rep-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
     <script
       data-cfasync="false"
       src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
@@ -167,5 +123,33 @@
       src="https://static.cloudflareinsights.com/beacon.min.js"
       data-cf-beacon='{"rayId":"6a7dfb26adde3cdc","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.10.0","si":100}'
     ></script>
+    <script>
+        // JavaScript code to create a simple bar chart
+        $(document).ready(function () {
+            var revenueData = {
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 293000, 722500],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Change the color as needed
+                    borderColor: 'rgba(75, 192, 192, 1)', // Change the color as needed
+                    borderWidth: 1
+                }]
+            };
+
+            var ctx = document.getElementById('recent-rep-chart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: revenueData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
   </body>
 </html>

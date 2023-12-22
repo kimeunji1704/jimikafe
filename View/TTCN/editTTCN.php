@@ -124,8 +124,8 @@ if (!$conn) {
 
 <body>
 <div class="content">
-        <div>
-            <h2 style=" text-align: center; color: #777777; padding-bottom: 15px; padding-top: 15px;">Sửa thông tin cá nhân<h2>
+<div style="margin-left: 50px; padding-bottom: 15px; padding-top: 15px; display: inline-block;width: 1169px;">
+            <h3 style="color: #000000; display: inline-block; font-size: 30px;">Cập nhật thông tin tài khoản</h3>
         </div>
             <div class="title-content">
                 <form action="" method="post" class="form-content">

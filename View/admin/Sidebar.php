@@ -1,7 +1,7 @@
 <aside class="menu-sidebar d-none d-lg-block" >
         <div class="center" style="padding:0px">
-          <a href="..\admin\admin.php">
-            <img src="../images/Screenshot_5.png"/>
+          <a href="..\admin\admin.php"s>
+            <img src="../images/Screenshot_5.png" style="width: 285px;height: 78px;"/>
           </a>
         </div>
         <div class="menu-sidebar__content js-scrollbar1">
@@ -59,7 +59,7 @@
               </li>
 
               <li class="active has-sub">
-              <a  class="js-arrow" href="..\Thongke\index.php" style="background-color:#EEEEEE;font-size: 19px; text-align:inherit ;font-weight: bold; color: #777777;">
+                <a  href="..\Thongke\index.php" style="background-color:#EEEEEE;font-size: 19px; text-align: inherit;font-weight: bold; color: #777777;">
                   <i class=""></i>Thống kê doanh thu</a>
               </li>
             </ul>

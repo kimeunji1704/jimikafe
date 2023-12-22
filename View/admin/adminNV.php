@@ -1,6 +1,6 @@
 <?php
-    include_once('Header.php');
-    include_once('sidebarNV.php');
+    include_once('HeaderNV.php');
+    include_once('SidebarNV.php');
 ?>
 
 <!DOCTYPE html>
@@ -66,16 +66,36 @@
 
     <link href="css/theme.css" rel="stylesheet" media="all" />
     <meta name="robots" content="index, nofollow" />
+    <style>
+     
+    </style>
   </head>
 
   <body class="animsition">
-  <div class="img">
-      <img src="..\images\cafe.jpg".jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+    <div class="container">
+      <div class="row justify-content-center" style="margin-top: 80px;">
+        <div class="col-lg-6">
+          <div class="au-card recent-report" style="width: 800px;">
+            <div class="au-card-inner">
+              <h3 class="title-2">Doanh thu</h3>
+              <div class="chart-info">
+                <div class="chart-info__left">
+                </div>
+              </div>
+              <div class="recent-report__chart">
+                <canvas id="recent-rep-chart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
     <script
       data-cfasync="false"
       src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="vendor/jquery-3.2.1.min.js"></script>
 
     <script src="vendor/bootstrap-4.1/popper.min.js"></script>
@@ -103,5 +123,33 @@
       src="https://static.cloudflareinsights.com/beacon.min.js"
       data-cf-beacon='{"rayId":"6a7dfb26adde3cdc","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.10.0","si":100}'
     ></script>
+    <script>
+        // JavaScript code to create a simple bar chart
+        $(document).ready(function () {
+            var revenueData = {
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 293000, 722500],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Change the color as needed
+                    borderColor: 'rgba(75, 192, 192, 1)', // Change the color as needed
+                    borderWidth: 1
+                }]
+            };
+
+            var ctx = document.getElementById('recent-rep-chart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: revenueData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
   </body>
 </html>

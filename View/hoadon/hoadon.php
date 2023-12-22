@@ -143,15 +143,31 @@ mysqli_close($conn);
             <div class="table">
                 <form action="" method="post" class="form-content">
                     <div class="text-content">
-                        <div class="input-text">
-                            <p>Ngày</p>
-                            <input type="date" name="date" id="date" placeholder="dd-MM-yyyy" class="textfiel">
-                        </div>
+                    <div class="input-text" style="display: inline-block;">
+                        <p style="display: inline-block; margin-right: 10px; width: 80px;">Ngày</p>
+                        <input type="date" name="date" id="date" class="textfiel" readonly style="display: inline-block;">
 
-                        <div class="input-text">
-                            <p>Sản phẩm</p>
-                            <select id="product-spinner" name="product-spinner" value=""
-                                style="height:30px; width:200px;">
+                        <p style="display: inline-block; margin-left: 50px;margin-right: 10px; width: 120px;">Khuyến mãi (%)</p>
+                        <select name="coupon-spinner" id="coupon-spinner" style="height: 30px; width: 200px; display: inline-block;">
+                            <?php echo $optionsCoupon; ?>
+                        </select>
+                    </div>
+
+
+                        <script>
+                            // Get the current date
+                            var currentDate = new Date();
+
+                            // Format the date as YYYY-MM-DD (required by the date input)
+                            var formattedDate = currentDate.toISOString().split('T')[0];
+
+                            // Set the value of the date input
+                            document.getElementById('date').value = formattedDate;
+                        </script>
+
+                        <div class="input-text" style="margin-bottom: 10px;">
+                            <p style="display: inline-block; margin-right: 10px; margin-top: 15px; width: 80px;">Sản phẩm</p>
+                            <select id="product-spinner" name="product-spinner" value="" style="height:30px; width:300px;">
                                 <?php echo $options; ?>
                             </select>
                         </div>
@@ -166,21 +182,14 @@ mysqli_close($conn);
                             <tbody></tbody>
                         </table>
 
-                        <div class="input-text">
-                            <p>Khuyến mãi (%)</p>
-                            <select name="coupon-spinner" id="coupon-spinner" style="height:30px; width:200px;">
-                                <?php echo $optionsCoupon; ?>
-                            </select>
-                        </div>
-
-                        <div class="input-text">
-                            <p>Tổng tiền</p>
+                        <div class="input-text" style="margin-left: 600px; margin-bottom: 10px;">
+                            <p style="display: inline-block;margin-right: 10px;">Tổng tiền</p>
                             <input type="text" disabled name="total_amount" id="total_amount" class="textfiel" readonly>
                         </div>
 
                         <div class="form-group">
                             <button style="margin-left: 650px;" type="submit" id="save_bill" name="btnSave"
-                                class="btn btn-outline-success"><i class="fa fa-plus"></i>Thêm</button>
+                                class="btn btn-outline-success">Thêm</button>
                             <a href="indexHD.php" class="btn btn-outline-danger">Quay lại</a>
                         </div>
                     </div>

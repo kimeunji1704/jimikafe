@@ -119,7 +119,7 @@ if (!$conn) {
         <div style="margin-left: 50px; padding-bottom: 15px; padding-top: 15px; display: inline-block;width: 1169px;">
             <h3 style="color: #000000; display: inline-block; font-size: 30px;">Thông tin tài khoản cá nhân</h3>
          </div>
-            <div class="title-content">
+            <div class="title-content" style="margin-left: 70px;">
                 <form action="" method="post" class="form-content">
                     <div class="text-content">
                         <div class="input-text">
